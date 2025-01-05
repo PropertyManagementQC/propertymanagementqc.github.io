@@ -1,0 +1,426 @@
+@font-face {
+	font-family: Helvetica;
+	src: url("Helvetica.ttf");
+}
+
+:root {
+	--toolbar-height: 60px;
+	--toolbar-color: #f9f9f9;
+}
+
+html.prevent-refresh {
+	overflow-y: hidden;
+	overscroll-behavior: contain;
+}
+body {
+	background-color: #87898b;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+}
+#flex-container {
+	display: flex;
+	height: 100%;
+	width: 100vw;
+}
+#toolbar-inner {
+	overflow-x: auto;
+	width: calc(100vw - 82px);
+	padding: 10px;
+	height: calc(var(--toolbar-height) - 20px);
+	display: flex;
+	align-items: center;
+	/*	shadow - https://stackoverflow.com/questions/44793453/how-do-i-add-a-top-and-bottom-shadow-while-scrolling-but-only-when-needed#comment115950584_44794221 */
+	background:
+	linear-gradient(90deg, var(--toolbar-color) 30%, rgba(255,255,255,0)),
+	linear-gradient(90deg, rgba(255,255,255,0), var(--toolbar-color) 70%) 0 100%,
+
+	linear-gradient(90deg, rgba(0,0,0, 0.4), var(--toolbar-color)),
+	linear-gradient(270deg, rgba(0,0,0, 0.2), var(--toolbar-color)) 0 100%;
+
+	background-repeat: no-repeat;
+	background-position: top left, top right, top left, top right;
+	background-size: 40px 100%, 40px 100%, 20px 100%, 20px 100%;
+	background-attachment: local, local, scroll, scroll;
+}
+
+#main-page {
+	position: fixed;
+	height: 100%;
+}
+
+#pass-wrapper {
+	display: grid;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.60);
+	transition: all 100ms ease-in-out;
+	opacity: 0;
+}
+
+#pass-wrapper.active {
+	opacity: 1;
+}
+
+#pass-dialog {
+	display: grid;
+	position: fixed;
+	background: white;
+	margin: 10px;
+	padding: 20px;
+	align-self: center;
+	justify-self: center;
+	border: 2px solid rgb(100, 100, 100);
+	border-radius: 25px;
+	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+	scale: 0;
+	transition: all 300ms ease-in-out;
+}
+
+#pass-wrapper.active #pass-dialog {
+	scale: 1;
+}
+
+#pass-wrapper.load .pass-save-only,
+#pass-wrapper.save .pass-load-only {
+	display: none;
+}
+
+#pass-input {
+	display: grid;
+}
+
+.pass-input {
+	margin: 5px;
+}
+
+#center-canvas {
+	transition: all 300ms ease-in-out;
+	position: fixed;
+	display: flex;
+	justify-content: end;
+	align-items: end;
+	width: 0;
+	height: 0;
+	translate: calc(50vw - 50%);
+	background: white;
+	overflow: hidden;
+}
+
+.sig-canvas {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+#center-canvas.active {
+	width: 100%;
+	height: 100%;
+}
+
+#canvas-buttons {
+	z-index: 1;
+	display: flex;
+	margin-block-end: 5px;
+}
+
+#canvas-buttons button {
+	margin: 4px 4px 1px 1px;
+	border: 1px solid #ccc;
+	cursor: pointer;
+	padding: 2px 4px;
+	border-radius: 5px;
+	height: calc(var(--toolbar-height) - 20px);
+	aspect-ratio: 1;
+	background: var(--toolbar-color);
+}
+
+@media screen and (orientation: landscape) {
+	#canvas-buttons {
+		flex-direction: row;
+	}
+
+	.signature-container {
+		margin-top: 5px;
+	}
+
+	.signature-container svg {
+		margin-right: 4px;
+	}
+}
+
+@media screen and (orientation: portrait) {
+	#canvas-buttons,
+	.signature-container {
+		flex-direction: column;
+	}
+
+	#canvas-buttons button,
+	#signature-line-width,
+	.signature-container svg {
+		transform: rotate(90deg);
+	}
+
+	.signature-container svg {
+		margin: 5px;
+	}
+}
+
+#pages {
+	display: flex;
+	max-width: 210px;
+	width: 20vw;
+	max-height: calc(100% - var(--toolbar-height) - 30px);
+	overflow-y: auto;
+	flex-direction: column;
+	align-items: center;
+	padding: 15px 0;
+}
+
+@media screen and (max-width: 500px) {
+	#pages {
+		width: 15vw;
+	}
+}
+
+@media only screen and (max-width: 450px) {
+	#pages {
+		display: none;
+	}
+}
+
+
+#content {
+	max-height: calc(100% - var(--toolbar-height));
+	overflow-y: auto;
+	display: flex;
+	width: 100%;
+}
+#pages .thumbnail-list-label {
+	text-align: center;
+	padding-top: 10px;
+	line-height: 1;
+}
+#pages .thumbnail-list-container {
+	padding: 1vh 1vw 0.5vh;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.thumbnail-list-container-selected {
+	background-color: #74bff5c7;
+	border-radius: 10px;
+}
+#pageContainer {
+	margin-left: auto;
+	margin-right: auto;
+}
+#pageContainer .page:first-child {
+	margin-top: 25px;
+}
+#pageContainer .page:last-child {
+	margin-bottom: 25px;
+}
+#pageContainer .page:not(:first-child) {
+	margin-top: 50px;
+}
+#overlayContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+#content-inner {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	transform-origin: top;
+}
+#content .draggable {
+	position: absolute;
+}
+#overlayContainer input[type="number"]::-webkit-inner-spin-button,
+#overlayContainer input[type="number"]::-webkit-outer-spin-button {
+	opacity: 1;
+}
+#overlayContainer input {
+	font-size: 13px;
+	font-family: Helvetica, sans-serif;
+}
+#overlayContainer input[type="text"] {
+	padding: 0;
+	margin: 0;
+}
+#overlayContainer .text-options input[type="number"],
+#signature-line-width {
+	width: 36px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+#signature-line-width {
+	height: 32px;
+}
+
+#overlayContainer .draggable {
+	padding: 5px 10px;
+	border-radius: 17px;
+}
+#overlayContainer .draggable.focused {
+	background-color: #74bff57d;
+	z-index: 1;
+}
+#overlayContainer .draggable.unfocused {
+	background-color: transparent;
+}
+#overlayContainer .draggable.focused .text-options {
+	display: flex;
+	margin-top: 5px;
+}
+#overlayContainer .draggable.unfocused .text-options {
+	display: none;
+}
+#overlayContainer .draggable.unfocused input[type="text"] {
+	background-color: #9ac2ff78;
+	border: 1px #e2e2ce7d solid;
+}
+#overlayContainer .draggable.focused input[type="text"] {
+	background-color: white;
+	border: 1px solid #ccc;
+}
+#overlayContainer .img-container {
+	display: flex;
+	align-items: center;
+}
+#overlayContainer .options {
+	cursor: pointer;
+	background: transparent;
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+#overlayContainer .drag-handle {
+	cursor: move;
+}
+#pages .thumbnail-list-canvas {
+	max-width: 96px;
+	width: 10vw;
+}
+
+#toolbar input[type="file"] label {
+	background-color: indigo;
+	color: white;
+	padding: 0.5rem;
+	font-family: sans-serif;
+	border-radius: 0.3rem;
+	cursor: pointer;
+	margin-top: 1rem;
+}
+
+#toolbar .separator {
+	width: 20px;
+	min-width: 8px;
+	display: inline-block;
+}
+
+#toolbar button {
+	margin: 0 4px 0 1px;
+	border: 1px solid rgba(0.5, 0.5, 0.5, 0.3);
+	cursor: pointer;
+	padding: 2px 4px;
+	border-radius: 5px;
+	height: calc(var(--toolbar-height) - 20px);
+	aspect-ratio: 1;
+}
+
+#toolbar button {
+	background: none;
+}
+
+#toolbar svg {
+	height: calc(var(--toolbar-height) - 28px);
+	width: calc(var(--toolbar-height) - 28px);
+}
+
+#toolbar button:disabled,
+#toolbar input[type="text"]:disabled,
+#canvas-buttons button:disabled {
+	opacity: 50%;
+	cursor: default;
+}
+#toolbar button image {
+	vertical-align: middle;
+}
+
+.draggable .separator {
+	width: 10px;
+	display: inline-block;
+}
+
+#canvas-buttons .separator {
+	width: 10px;
+	height: 10px;
+}
+
+#empty-state {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#empty-state-inner {
+	background: var(--toolbar-color);
+	padding: 15px;
+	border-radius: 15px;
+	font-size: 1rem;
+}
+#top-bar {
+	display: flex;
+	height: var(--toolbar-height);
+	background-color: var(--toolbar-color);
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+	z-index: 10;
+	position: relative;
+}
+
+#socials {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	padding: 10px;
+}
+
+#socials a {
+	padding: 5px;
+}
+#socials a img {
+	display: block;
+}
+
+#svgdefs {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.icon {
+	width: 20px;
+	height: 20px;
+}
+
+.signature-container {
+	display: flex;
+	justify-content: center;
+}
+
+.thumbnail-list-canvas.added-page {
+	background: white;
+}
+

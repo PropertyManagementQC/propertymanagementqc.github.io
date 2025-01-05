@@ -1,0 +1,474 @@
+<!--TODO: fix signature in main app. Should clear the canvas after adding; edit on existing doesn't work-->
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="google" content="notranslate">
+		<meta name="viewport" content="width=device-width">
+		<title>Homepage - Property Management QC</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<svg aria-hidden="true" id="svgdefs" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<symbol id="icon-move" viewBox="0 0 16 16" aria-label="6 dots arranged into 3 rows and 2 columns">
+					<title>Drag to move</title>
+					<path d="M 12,12.5 A 1.5,1.5 0 0 1 10.5,14 1.5,1.5 0 0 1 9,12.5 1.5,1.5 0 0 1 10.5,11 1.5,1.5 0 0 1 12,12.5 Z m -5,0 A 1.5,1.5 0 0 1 5.5,14 1.5,1.5 0 0 1 4,12.5 1.5,1.5 0 0 1 5.5,11 1.5,1.5 0 0 1 7,12.5 Z M 12,8 A 1.5,1.5 0 0 1 10.5,9.5 1.5,1.5 0 0 1 9,8 1.5,1.5 0 0 1 10.5,6.5 1.5,1.5 0 0 1 12,8 Z M 7,8 A 1.5,1.5 0 0 1 5.5,9.5 1.5,1.5 0 0 1 4,8 1.5,1.5 0 0 1 5.5,6.5 1.5,1.5 0 0 1 7,8 Z M 12,3.5 A 1.5,1.5 0 0 1 10.5,5 1.5,1.5 0 0 1 9,3.5 1.5,1.5 0 0 1 10.5,2 1.5,1.5 0 0 1 12,3.5 Z m -5,0 A 1.5,1.5 0 0 1 5.5,5 1.5,1.5 0 0 1 4,3.5 1.5,1.5 0 0 1 5.5,2 1.5,1.5 0 0 1 7,3.5 Z"/>
+				</symbol>
+				<symbol id="icon-delete" viewBox="0 0 20 20" aria-label="A trash can">
+					<title>Delete this element</title>
+					<path style="fill:none;stroke:#000000;stroke-width:1.5;" d="M 10,9.0000001 V 16 M 13,9.0000001 12,16 Z m -6,-4.5 c 0,-1.4990729 0.997973,-2.5 2.999904,-2.5 2.001931,0 3.000096,0.9964237 3.000096,2.5 m -11,0 h 16 v 2.5 H 2 Z m 5,4.5 L 8,16 Z m -3,-2 H 16 L 14,18 H 6 Z"/>
+				</symbol>
+				<symbol id="icon-text-size" viewBox="0 0 20 20" aria-label="A small capital T followed by a big capital T">
+					<title>Change font size</title>
+					<path d="m 8,2 v 2 h 4 v 14 h 2 V 4 h 4 V 2 Z M 2,8 v 2 h 3 v 8 h 2 v -8 h 3 V 8 Z"/>
+				</symbol>
+				<symbol id="icon-line-width" viewBox="0 0 20 20" aria-label="A teardrop-like shape">
+					<title>Change line width</title>
+					<path d="M 18,9.5 C 18,5.3578644 14.642136,2 10.5,2 6.357864,2 5.169595,6.1168884 4.5,8 3.830405,9.8831116 2,14.895431 2,16 c 0,1.104569 0.8954305,2 2,2 1.1045695,0 6.114383,-1.824274 8,-2.5 1.885617,-0.675726 6,-1.857864 6,-6 z"/>
+				</symbol>
+				<symbol id="icon-scale" viewBox="0 0 20 20" aria-label="A square with arrows inside pointing outward to the corners">
+					<title>Change scale</title>
+					<path d="M 5,15 H 9 L 7.75,13.75 9.5,11.5 8.5,10.5 6.25,12.25 5,11 Z M 5,5 V 9 L 6.25,7.75 8.5,9.5 9.5,8.5 7.75,6.225 9,5 Z m 10,0 h -4 l 1.25,1.25 -1.75,2.25 1,1 L 13.75,7.75 15,9 Z M 18,2 H 2 V 18 H 18 Z M 16,16 H 4 V 4 h 12 z m -1,-1 v -4 l -1.25,1.25 -2.25,-1.75 -1,1 1.75,2.25 L 11,15 Z"/>
+				</symbol>
+				<symbol id="icon-rotate-ccw" viewBox="0 0 20 20" aria-label="A square with an arrow inside indicating counter-clockwise rotation">
+					<title>Rotate counter-clockwise</title>
+					<path d="M 6.9019238,9.3660254 10.366025,11.366025 9.9084936,9.6584936 10.591782,9.3806914 c 1.14862,-0.4669907 1.363076,0.233395 0.832256,1.1528026 l 1.299038,0.75 C 14.218608,8.4584228 12.128169,7.2261987 10.716734,7.4137366 L 9.3378049,7.5969555 8.9019238,5.9019238 Z m 0.9019238,-7.5621778 -6,10.3923044 10.3923044,6 6,-10.3923044 z m 7.6602544,6.7320508 -4,6.9282036 -6.9282036,-4 4,-6.9282036 z"/>
+				</symbol>
+				<symbol id="icon-rotate-cw" viewBox="0 0 20 20" aria-label="A square with an arrow inside indicating clockwise rotation">
+					<title>Rotate clockwise</title>
+					<path d="M 13.098076,9.3660254 9.6339746,11.366025 10.091506,9.6584936 9.4082176,9.3806914 c -1.14862,-0.4669907 -1.363076,0.233395 -0.832256,1.1528026 l -1.299038,0.75 C 5.7813916,8.4584228 7.8718306,7.2261987 9.2832656,7.4137366 l 1.3789294,0.1832189 0.435881,-1.6950317 z m -0.901924,-7.5621778 6,10.3923044 -10.3923044,6 -6,-10.3923044 z m -7.6602544,6.7320508 4,6.9282036 6.9282034,-4 -4,-6.9282036 z"/>
+				</symbol>
+				<symbol id="icon-edit" viewBox="0 0 20 20" aria-label="A pencil">
+					<title>Edit</title>
+					<path d="M 13,1.5859375 2,12.585938 V 18 H 7.4140625 L 18.414062,7 Z M 13,4.4140625 15.585938,7 14,8.5859375 11.414063,6 Z m -3,3 L 12.585938,10 8,14.585938 5.4140625,12 Z M 4,13.414063 6.5859375,16 H 4 Z"/>
+				</symbol>
+				<symbol id="icon-add-text" viewBox="0 -960 960 960" aria-label="A square with smaller squares on the corners and the letter T inside">
+					<title>Insert text</title>
+					<path d="M463.077-320v-286.154h-120V-640h273.846v33.846h-120V-320h-33.846ZM95.384-95.384V-256.36h64.462v-447.282H95.384v-160.975H256.36v64.462h447.282v-64.462h160.975v160.975h-64.462v447.282h64.462v160.975H703.641v-64.462H256.359v64.462H95.384Zm160.975-98.308h447.282v-62.667h62.667v-447.282h-62.667v-62.667H256.359v62.667h-62.667v447.282h62.667v62.667ZM129.23-737.487h93.283v-93.283H129.23v93.283Zm608.257 0h93.283v-93.283h-93.283v93.283Zm0 608.257h93.283v-93.283h-93.283v93.283Zm-608.257 0h93.283v-93.283H129.23v93.283Zm93.283-608.257Zm514.974 0Zm0 514.974Zm-514.974 0Z"/>
+				</symbol>
+				<symbol id="icon-add-signature" viewBox="0 0 8.4666666 8.4666666" aria-label="A pen drawing a curvy line">
+					<title>Insert signature</title>
+					<path style="fill:none;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1" d="M 1.4470985,5.6966515 2.7700151,7.0195681 M 1.0583333,7.4083333 C 0,8.4666666 2.6141973,7.7593349 3.4970241,7.3178274 5.3828393,6.3747189 3.5930854,8.6848587 5.212837,7.759171 5.6194734,7.5267784 6.3398861,6.6121981 7.1529875,7.0567822 M 6.35,0.79374999 7.6729166,2.1166667 6.6145833,3.175 5.2916666,1.8520833 Z m -1.0583333,1.05833331 -3.96875,3.96875 -0.2645834,1.5875 1.5875,-0.2645833 3.96875,-3.96875 z"/>
+				</symbol>
+				<symbol id="icon-sig-undo" viewBox="0 0 32 32" aria-label="A curved arrow pointing to the left">
+					<title>Undo</title>
+					<path style="fill:none;stroke:#000000" d="m 2.8950002,10.882 7.5999998,7.6 v -4.75 c 8.548827,0 13.3,2.374619 13.3,5.225 0,2.850381 -4.748065,5.225 -13.3,5.225 v 5.7 c 17.100754,0 19,-6.170904 19,-10.925 0,-4.754095 -1.898167,-10.9249998 -19,-10.9249998 v -4.75 z"/>
+				</symbol>
+				<symbol id="icon-sig-redo" viewBox="0 0 32 32" aria-label="A curved arrow pointing to the right">
+					<title>Redo</title>
+					<path style="fill:none;stroke:#000000" d="m 29.298249,10.882 -7.6,7.6 v -4.75 c -8.548827,0 -13.3000002,2.374619 -13.3000002,5.225 0,2.850381 4.7480652,5.225 13.3000002,5.225 v 5.7 c -17.1007542,0 -19.0000002,-6.170904 -19.0000002,-10.925 0,-4.754095 1.898167,-10.9249998 19.0000002,-10.9249998 v -4.75 z"/>
+				</symbol>
+				<symbol id="icon-sig-accept" viewBox="0 0 32 32" aria-label="A checkmark">
+					<title>Accept</title>
+					<path style="fill:none;stroke:#000000" d="M 3,20 13,29 29,3"/>
+				</symbol>
+				<symbol id="icon-sig-clear" viewBox="0 0 32 32" aria-label="A trash can">
+					<title>Clear</title>
+					<path style="fill:none;stroke:#000000" d="M 16,11.451 V 24.649938 M 22.053639,11.735264 20.926997,25.226765 Z M 10,4.198 c 0,0 0.995795,-2.7040808 6,-2.7040808 4.99608,0 6,2.7040808 6,2.7040808 M 4.2475914,4.498485 H 27.752409 V 8.3871438 H 4.2475914 Z m 5.6987693,7.236779 1.1266423,13.491501 z M 6.4742704,8.3871438 H 25.52573 L 23.722491,29.980862 H 8.2775093 Z"/>
+				</symbol>
+				<symbol id="icon-sig-close" viewBox="0 0 32 32" aria-label="An X">
+					<title>Close</title>
+					<path style="fill:none;stroke:#000000" d="M 2,30 30,2 M 2,2 30,30"/>
+				</symbol>
+				<symbol id="icon-add-image" viewBox="0 -960 960 960" aria-label="A square with a small triangle adjacent a larger traingle inside">
+					<title>Insert image</title>
+					<path d="M218.461-160q-24.577 0-41.519-16.942Q160-193.884 160-218.461v-523.078q0-24.577 16.942-41.519Q193.884-800 218.461-800h523.078q24.577 0 41.519 16.942Q800-766.116 800-741.539v523.078q0 24.577-16.942 41.519Q766.116-160 741.539-160H218.461Zm0-33.846h523.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-523.078q0-9.231-7.692-16.923-7.692-7.692-16.923-7.692H218.461q-9.231 0-16.923 7.692-7.692 7.692-7.692 16.923v523.078q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692Zm80.41-105.179h369.078L555.333-448.667l-108 135.539-70.974-86.718-77.488 100.821ZM193.846-193.846v-572.308 572.308Z"/>
+				</symbol>
+				<symbol id="icon-add-page" viewBox="0 0 32 32" aria-label="A rectangle with a plus sign inside">
+					<title>Insert page</title>
+					<path style="fill:none;stroke:#000000" d="M 15.999999,22.493641 V 9.506359 M 9.506359,16 H 22.49364 M 6.6026163,2.8687086 H 25.397384 V 29.131291 H 6.6026163 Z"/>
+				</symbol>
+				<symbol id="icon-remove-page" viewBox="0 0 32 32" aria-label="A rectangle with a minus sign inside">
+					<title>Remove page</title>
+					<path style="fill:none;stroke:#000000" d="M 9.506359,16 H 22.49364 M 6.6026163,2.8687086 H 25.397384 V 29.131291 H 6.6026163 Z"/>
+				</symbol>
+				<symbol id="icon-download" viewBox="0 -960 960 960" aria-label="An arrow pointing down to a line with both ends curved up">
+					<title>Save as PDF (non-editable)</title>
+					<path d="M480-334.82 340.564-474.257l24.256-23.897 98.257 97.744V-760h33.846v359.59l98.257-97.744 24.256 23.897L480-334.82ZM258.461-200q-24.577 0-41.519-16.942Q200-233.884 200-258.461v-104.052h33.846v104.052q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692h443.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-104.052H760v104.052q0 24.577-16.942 41.519Q726.116-200 701.539-200H258.461Z"/>
+				</symbol>
+				<symbol id="icon-save" viewBox="0 0 32 32" aria-label="A floppy disk">
+					<title>Save as data (editable)</title>
+					<path d="m 3.5,3.5 v 25 h 25 V 8.8242188 L 24.240234,3.5 Z m 1,1 H 10 v 7 h 12 v -7 h 1.759766 L 27.5,9.1757813 V 27.5 h -23 z m 6.5,0 h 7 v 6 h -7 z m 9,0 h 1 v 6 h -1 z m -11.5,11 v 9 h 15 v -9 z m 1,1 h 13 v 7 h -13 z"/>
+				</symbol>
+				<symbol id="icon-upload" viewBox="0 -960 960 960" aria-label="A page with an arrow pointing up">
+					<title>Load data</title>
+					<path d="M463.897-250.051h33.847v-198.128l89.333 89.846 24.103-24.18L480-512.564 349.641-381.692l23.667 23.59 90.589-90.077v198.128ZM258.461-120q-24.577 0-41.519-16.942Q200-153.884 200-178.461v-603.078q0-24.577 16.942-41.519Q233.884-840 258.461-840h327.847L760-666.308v487.847q0 24.577-16.942 41.519Q726.116-120 701.539-120H258.461Zm310.924-530.359v-155.795H258.461q-9.231 0-16.923 7.692-7.692 7.692-7.692 16.923v603.078q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692h443.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-471.898H569.385ZM233.846-806.154v155.795-155.795 652.308-652.308Z"/>
+				</symbol>
+			</defs>
+		</svg>
+		<div id="main-page">
+			<div id="top-bar">
+				<input type="checkbox" class="openSidebarMenu" id="openSidebarMenu">
+				<label for="openSidebarMenu" class="sidebarIconToggle">
+					<div class="spinner diagonal part-1"></div>
+					<div class="spinner horizontal"></div>
+					<div class="spinner diagonal part-2"></div>
+				</label>
+				<div id="sidebarMenu">
+					<div class="sidebarMenuInner">
+						<a href="#top" id="scroll-top">Scroll to top</a><br>
+						Help:
+						<ul>
+							<li>
+								<a href="#element">Elements</a>
+								<ul>
+									<li><a href="#element-settings">Settings</a></li>
+									<li><a href="#element-move">Moving</a></li>
+									<li><a href="#element-remove">Removing</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#text">Text elements</a>
+								<ul>
+									<li><a href="#text-add">Adding</a></li>
+									<li><a href="#text-size">Font size</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#signature">Signature elements</a>
+								<ul>
+									<li><a href="#signature-add">Adding</a></li>
+									<li><a href="#signature-write">Writing</a></li>
+									<li><a href="#signature-scale">Scaling</a></li>
+									<li><a href="#signature-line-width">Line width</a></li>
+									<li><a href="#signature-edit">Editing</a></li>
+									<li><a href="#signature-rotate">Rotating</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#image">Image elements</a>
+								<ul>
+									<li><a href="#image-add">Adding</a></li>
+									<li><a href="#image-scale">Scaling</a></li>
+									<li><a href="#image-rotate">Rotating</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#page">Pages</a>
+								<ul>
+									<li><a href="#page-add">Adding</a></li>
+									<li><a href="#page-remove">Removing</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#files">Downloading and uploading</a>
+								<ul>
+									<li><a href="#files-save">Download in-progress application</a></li>
+									<li><a href="#files-upload">Upload in-progress application</a></li>
+									<li><a href="#files-download">Download completed application</a></li>
+								</ul>
+							</li>
+							<li id="problem-link"><a href="#problem">Still need help?</a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="top-bar-title">Property Management QC</div>
+				<div class="separator"></div>
+				<div class="top-bar-text"><a href="application/Application%20for%20Tenancy.pdf" download>Download the PDF</a></div>
+				<div class="top-bar-text"><a href="application/">Fill out an application</a></div>
+			</div>
+
+			<div id="content">
+				<h1 id="top">Welcome!</h1>
+				<p class="exclude-linespace">
+					There are two ways to fill out an application with us. The first way is to <a href="application/Application%20for%20Tenancy.pdf" download>download the PDF file</a>
+					and fill it out in the
+					<span class="desktop">program</span><span class="desktop mobile">/</span><span class="mobile">app</span>
+					of your choice. The second way is to <a href="application/">fill out the PDF online</a>.
+				</p>
+				<noscript>
+					<div class="important notice">
+						<p class="important notice">Important</p>
+						The website requires JavaScript to work properly; to use the online application filler, you must enable JavaScript.
+					</div>
+				</noscript>
+				<div class="note notice">
+					<p class="note notice">Note</p>
+					For security reasons, the website does not store or process any of your data. If the website is reloaded for any reason,
+					what you have filled out so far will be lost. To save your progress, see <a href="#files-save">here</a>.
+				</div>
+
+				<div class="important notice">
+					<p class="important notice">Important</p>
+					All information added to your application must be legible. Any information that is not legible will <em>NOT</em> be considered as part of your application.
+				</div>
+				<h2 id="help">Help</h2>
+				<p>If you need help with filling out the online form, below is an overview of how to use the website.</p>
+				<details id="table-of-contents">
+					<summary>Table of Contents (also accessible in sidebar)</summary>
+					<ul>
+						<li>
+							<details>
+								<summary><a href="#element">Elements</a></summary>
+								<ul>
+									<li><a href="#element-settings">Settings</a></li>
+									<li><a href="#element-move">Moving</a></li>
+									<li><a href="#element-remove">Removing</a></li>
+								</ul>
+							</details>
+						</li>
+
+						<li>
+							<details>
+								<summary><a href="#text">Text elements</a></summary>
+								<ul>
+									<li><a href="#text-add">Adding</a></li>
+									<li><a href="#text-size">Font size</a></li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<details>
+								<summary><a href="#signature">Signature elements</a></summary>
+								<ul>
+									<li><a href="#signature-add">Adding</a></li>
+									<li><a href="#signature-write">Writing</a></li>
+									<li><a href="#signature-scale">Scaling</a></li>
+									<li><a href="#signature-line-width">Line width</a></li>
+									<li><a href="#signature-edit">Editing</a></li>
+									<li><a href="#signature-rotate">Rotating</a></li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<details>
+								<summary><a href="#image">Image elements</a></summary>
+								<ul>
+									<li><a href="#image-add">Adding</a></li>
+									<li><a href="#image-scale">Scaling</a></li>
+									<li><a href="#image-rotate">Rotating</a></li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<details>
+								<summary><a href="#page">Pages</a></summary>
+								<ul>
+									<li><a href="#page-add">Adding</a></li>
+									<li><a href="#page-remove">Removing</a></li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<details>
+								<summary><a href="#files">Downloading and uploading</a></summary>
+								<ul>
+									<li><a href="#files-save">Download in-progress application</a></li>
+									<li><a href="#files-upload">Upload in-progress application</a></li>
+									<li><a href="#files-download">Download completed application</a></li>
+								</ul>
+							</details>
+						</li>
+						<li><a href="#problem">Still need help?</a></li>
+					</ul>
+				</details>
+
+				<h3 id="element">Elements</h3>
+				<p>
+					"Elements" is the collective term for the items you can add and position on your application. This includes <a href="#text">text</a>,
+					<a href="#image">images</a>, and <a href="#signature">signatures</a>.
+				</p>
+				<h4 id="element-settings">Accessing settings for elements</h4>
+				<p>
+					The settings relevant to each element can be accessed by
+					<span class="desktop">clicking</span><span class="desktop mobile">/</span><span class="mobile">tapping</span>
+					on the element to select that element. The available options are available below the element after it is selected.
+				</p>
+				<h4 id="element-move">Moving elements</h4>
+				<p>
+					An element can be moved by dragging the <svg role="img" width="24" height="24"><use href="#icon-move"></use></svg> icon
+					in the element's <a href="#element-settings">settings</a>.
+				</p>
+				<h4 id="element-remove">Removing elements</h4>
+				<p>
+					An element can be removed or deleted from your application by
+					<span class="desktop">clicking</span><span class="desktop mobile">/</span><span class="mobile">tapping</span>
+					<svg role="img" width="24" height="24"><use href="#icon-delete"></use></svg>
+					in the element's <a href="#element-settings">settings</a>.
+				</p>
+
+				<h3 id="text">Text elements</h3>
+				<h4 id="text-add">Adding text</h4>
+				<p>
+					To add text to your application, you can
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on one of the provided text boxes (signified by a blue box), or you can add a new text box by
+					<span class="desktop">clicking</span><span class="desktop mobile">/</span><span class="mobile">tapping</span>
+					<svg role="img" width="24" height="24"><use href="#icon-add-text"></use></svg> in the top bar.
+				</p>
+				<h4 id="text-size">Set a text box's font size</h4>
+				<p>
+					To change a text box's font size, edit the number next to the
+					<svg role="img" width="24" height="24"><use href="#icon-text-size"></use></svg> icon in the text's <a href="#element-settings">settings</a>.
+				</p>
+				<h3 id="signature">Signature elements</h3>
+				<h4 id="signature-add">Adding a signature</h4>
+				<p>
+					To add your signature,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					<svg role="img" width="24" height="24"><use href="#icon-add-signature"></use></svg> in the top bar.
+				</p>
+				<h4 id="signature-write">Writing a signature</h4>
+				<p>
+					Upon
+					<span class="desktop">clicking</span><span class="desktop mobile">/</span><span class="mobile">tapping</span>
+					to add or edit a signature, you will be presented with a canvas and some controls on the bottom right corner of the screen.
+					Editing the number next to <svg role="img" width="24" height="24"><use href="#icon-line-width"></use></svg>
+					will change the width of all lines. <svg role="img" width="24" height="24"><use href="#icon-sig-undo"></use></svg> and
+					<svg role="img" width="24" height="24"><use href="#icon-sig-redo"></use></svg> will undo and redo the last line draw, respectively.
+					<svg role="img" width="24" height="24"><use href="#icon-sig-accept"></use></svg> will add the signature to your application,
+					<svg role="img" width="24" height="24"><use href="#icon-sig-clear"></use></svg> will clear the canvas, and
+					<svg role="img" width="24" height="24"><use href="#icon-sig-close"></use></svg> will close the canvas without adding the signature
+					to your application.
+				</p>
+				<h4 id="signature-scale">Scaling a signature</h4>
+				<p>
+					To scale a signature, edit the number next to
+					<svg role="img" width="24" height="24"><use href="#icon-scale"></use></svg> in the signature's <a href="#element-settings">settings</a>.
+				</p>
+				<h4 id="signature-line-width">Change a signature's line width</h4>
+				<p>
+					To change your signature's line width, edit the number next to
+					<svg role="img" width="24" height="24"><use href="#icon-line-width"></use></svg> in the signature's <a href="#element-settings">settings</a>.
+					This should be done if your signature is scaled so that it is still easily visible.
+				</p>
+				<h4 id="signature-edit">Editing a signature</h4>
+				<p>
+					To edit an already added signature,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-edit"></use></svg> in the signature's <a href="#element-settings">settings</a>.
+					This will open the canvas for you to continue writing your signature.
+				</p>
+				<h4 id="signature-rotate">Rotating a signature</h4>
+				<p>
+					To rotate a signature,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-rotate-ccw"></use></svg> or
+					<svg role="img" width="24" height="24"><use href="#icon-rotate-cw"></use></svg> in the signature's <a href="#element-settings">settings</a> to rotate
+					it counter-clockwise or clockwise, repsectively.
+				</p>
+
+				<h3 id="image">Images</h3>
+				<p>
+					Adding an image allows you to draw your signature in another
+					<span class="desktop">program</span><span class="desktop mobile">/</span><span class="mobile">app</span>
+					and add it as an image to your application. It is recommended that the image has a transparent background.
+				</p>
+				<h4 id="image-add">Adding an image</h4>
+				<p>
+					To add an image,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-add-image"></use></svg> in the top bar. Then select
+					the image you wish to add using your system's file browser.
+				</p>
+				<h4 id="image-scale">Scaling an image</h4>
+				<p>
+					To scale an image, edit the number next to
+					<svg role="img" width="24" height="24"><use href="#icon-scale"></use></svg> in the image's <a href="#element-settings">settings</a>.
+				</p>
+				<h4 id="image-rotate">Rotating an image</h4>
+				<p>
+					To rotate an image,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-rotate-ccw"></use></svg> or
+					<svg role="img" width="24" height="24"><use href="#icon-rotate-cw"></use></svg> in the image's <a href="#element-settings">settings</a> to rotate
+					it counter-clockwise or clockwise, repsectively.
+				</p>
+
+				<h3 id="page">Pages</h3>
+				<h4 id="page-add">Adding a new page</h4>
+				<p>
+					To add a new, blank page to your application (for additional space, if necessary),
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-add-page"></use></svg> in the top bar.
+				</p>
+				<h4 id="page-remove">Removing a page</h4>
+				<p>
+					To remove the last added page,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-remove-page"></use></svg> in the top bar.
+					<br>
+				</p>
+				<div class="note notice">
+					<p class="note notice">Note</p>
+					This will not remove any elements that you have placed on the page.
+				</div>
+				<div class="note notice">
+					<p class="note notice">Note</p>
+					Any elements that are not on a page when the final PDF is downloaded will not be included in the document.
+				</div>
+
+				<h3 id="files">Downloading and uploading</h3>
+				<div class="important notice">
+					<p class="important notice">Important</p>
+					After sending us your PDF application, it is recommended to delete all saved <code>.dat</code> files as well as the PDF since they contain
+					sensitive personal information. Be sure to delete them from your device's recycling bin or trash folder as well.
+				</div>
+				<h4 id="files-save">Download an in-progress application (can be edited)</h4>
+				<p>
+					To download an in-progress application so that you can complete it later (or on a different device),
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-save"></use></svg> in the top bar.
+				</p>
+				<div class="note notice">
+					<p class="note notice">Note</p>
+					You will be prompted to enter a password, which is highly recommended, as the file will contain your
+					highly sensitive data (i.e. <abbr title="Social Security Number">SSN</abbr>) if you have entered it into your application.
+					Be sure you remember your password, otherwise the progress on your application will be lost.
+				</div>
+				<div class="important notice">
+					<p class="important notice">Important</p>
+					Do not send us your application in this format; it will not be accepted. You must download your completed
+					application as a PDF.
+				</div>
+				<h4 id="files-upload">Upload an in-progress application (to continue editing)</h4>
+				<p>
+					To upload an in-progress application so you can continue working on it,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-upload"></use></svg> in the top bar. Select the
+					<code>.dat</code> file you downloaded earlier, and enter your password to continue.
+				</p>
+				<h4 id="files-download">Download a complete application (as PDF)</h4>
+				<p>
+					To download your completed application to send to us,
+					<span class="desktop">click</span><span class="desktop mobile">/</span><span class="mobile">tap</span>
+					on <svg role="img" width="24" height="24"><use href="#icon-download"></use></svg> in the top bar.
+				</p>
+				<div class="important notice">
+					<p class="important notice">Important</p>
+					The PDF format cannot be reuploaded and edited by this tool; you must download a <code>.dat</code> file
+					if you want to save your application to work on later.
+				</div>
+				<div class="note notice">
+					<p class="note notice">Note</p>
+					Any elements that are not on a page when the final PDF is downloaded will not be included in the document.
+					Be sure you check the PDF for errors before you send it to us!
+				</div>
+
+
+				<h3 id="problem">Found a problem or still need help?</h3>
+				<p class="exclude-linespace">
+					Please send an email to <a href="mailto:37378044+CodingSyntax@users.noreply.github.com">37378044+CodingSyntax@users.noreply.github.com</a>
+					and we'll get back to you as soon as possible.
+				</p>
+			</div>
+		</div>
+	</body>
+	<script>
+		const topbar = document.querySelector("#top-bar")
+		const check = document.querySelector("#openSidebarMenu");
+		//Close sidebar when clicked outside
+		document.addEventListener("click", ev => {
+    		if (!topbar.contains(ev.target)) {
+        		check.checked = false;
+    		}
+		});
+		//Close sidebar when link inside is clicked
+		document.querySelectorAll(".sidebarMenuInner a").forEach((el, k, p) => {
+    		el.addEventListener("click", evt => {
+        		check.checked = false;
+    		})
+		})
+	</script>
+</html>

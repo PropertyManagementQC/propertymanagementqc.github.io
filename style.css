@@ -1,0 +1,336 @@
+#svgdefs {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+:root {
+	--toolbar-height: 60px;
+	--toolbar-color: #f9f9f9;
+	--foreground-color: #000;
+	--line-color: rgb(0, 0, 0, 0.10);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+
+/* Light mode; default */
+p.note {
+	color: dodgerblue;
+}
+p.important {
+	color: rebeccapurple;
+}
+
+div.note {
+	border-left-color:dodgerblue;
+	background: #1e90ff20;
+}
+div.important {
+	border-left-color:rebeccapurple;
+	background: #66339920;
+}
+
+@keyframes focusflash-bg {
+	  from { background: red; }
+	  to   { background: #ff000020; }
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--toolbar-color: #080808;
+		--foreground-color: #f0f0f0;
+		--line-color: rgb(255, 255, 255, 0.10);
+	}
+
+	body {
+		background-color: #151515;
+		color: var(--foreground-color);
+	}
+
+	svg {
+		filter: invert(90%);
+	}
+
+	:link {
+		color: #8e8eff;
+	}
+
+	:visited {
+		color: #892ddd;
+	}
+
+	p.note {
+		color: cornflowerblue;
+	}
+	p.important {
+		color: mediumpurple;
+	}
+
+	div.note {
+		border-left-color:cornflowerblue;
+		background: #6495ed20;
+	}
+	div.important {
+		border-left-color:mediumpurple;
+		background: #9370db20;
+	}
+
+	@keyframes focusflash-bg {
+	  from { background: yellow; }
+	  to   { background: #ffff0020; }
+	}
+}
+
+:target {
+	animation: focusflash-bg 2s forwards;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+}
+
+#main-page {
+	height: 100%;
+}
+
+p:not(.notice):not(.exclude-linespace) {
+	margin-top: 0;
+	line-height: 25px;
+	margin-bottom: 0;
+}
+
+h1, h2, h3, h4 {
+	margin-bottom: 5px;
+}
+
+#top-bar {
+	display: flex;
+	height: var(--toolbar-height);
+	background-color: var(--toolbar-color);
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+	z-index: 10;
+	position: relative;
+}
+
+#top-bar-title {
+	font-size: xx-large;
+	font-weight: bold;
+	align-self: center;
+	margin-left: 50px;
+}
+
+.top-bar-text {
+	align-self: center;
+	margin-left: 20px;
+}
+
+@media (max-width: 800px) {
+	.top-bar-text {
+		display: none;
+	}
+}
+
+@media (max-width: 465px) {
+	#top-bar-title {
+		font-size: x-large;
+	}
+}
+
+@media (max-width: 365px) {
+	#top-bar-title {
+		font-size: large;
+	}
+}
+
+.separator {
+	width: 20px;
+}
+
+#content {
+	padding: 0 10px;
+	height: calc(100% - var(--toolbar-height));
+	overflow-y: scroll;
+}
+
+#table-of-contents {
+	width: fit-content;
+	margin: 10px;
+	padding: 5px;
+	border: 3px var(--foreground-color) outset;
+	border-radius: 5px;
+}
+
+#table-of-contents ul {
+	list-style: none;
+}
+
+svg {
+	margin-top: -10px;
+	translate: 0 6px;
+}
+
+summary {
+	cursor: pointer;
+}
+
+div.notice {
+	margin: 10px;
+	padding: 10px;
+	border-left-style: solid;
+	border-left-width: 5px;
+}
+
+p.notice {
+	margin-bottom: 10px;
+	margin-top: 0;
+	font-weight: bold;
+}
+
+/* Pure CSS sidebar from: https://codepen.io/plavookac/pen/qomrMw */
+
+#sidebarMenu {
+    height: calc(100% - var(--toolbar-height));
+    position: fixed;
+    left: 0;
+    width: 315px;
+    margin-top: var(--toolbar-height);
+    transform: translateX(-335px);
+    transition: transform 250ms ease-in-out;
+	background-color: var(--toolbar-color);
+}
+
+.sidebarMenuInner{
+	height: calc(100% - 20px);
+    margin:0;
+	padding: 10px;
+    font-weight: bold;
+    border-top: 1px solid var(--line-color);
+	overflow-y: scroll;
+}
+
+#problem-link {
+	padding-bottom: 5px;
+}
+
+.sidebarMenuInner ul {
+	margin: 0;
+	padding: 0;
+    list-style: none;
+}
+
+.sidebarMenuInner li {
+    padding-top: 5px;
+    border-bottom: 1px solid var(--line-color);
+}
+
+.sidebarMenuInner li li {
+    list-style: none;
+    font-weight: bold;
+    padding: 10px 0;
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+#scroll-top {
+	display: inline-block;
+	text-decoration: none;
+	margin-bottom: 10px;
+}
+
+.sidebarMenuInner li a {
+    text-decoration: none;
+}
+
+.sidebarMenuInner ul ul {
+	padding-left: 20px;
+}
+
+input[type="checkbox"]:checked ~ #sidebarMenu {
+    transform: translateX(0);
+}
+
+input[type=checkbox] {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    display: none;
+}
+
+.sidebarIconToggle {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 99;
+    top: 22px;
+    left: 15px;
+    height: 22px;
+    width: 22px;
+}
+.spinner {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+	background-color: var(--foreground-color);
+}
+.horizontal {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    margin-top: 3px;
+}
+.diagonal.part-1 {
+    position: relative;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    float: left;
+}
+.diagonal.part-2 {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    margin-top: 3px;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .horizontal {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    opacity: 0;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-1 {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    transform: rotate(135deg);
+    margin-top: 8px;
+}
+input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
+    transition: all 0.3s;
+    box-sizing: border-box;
+    transform: rotate(-135deg);
+    margin-top: -9px;
+}
+
+@media (pointer: coarse) {
+	.desktop {
+		display: none;
+	}
+}
+
+@media (pointer: fine) {
+	.mobile {
+		display: none;
+	}
+}

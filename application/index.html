@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<meta name="google" content="notranslate">
+		<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no, initial-scale=1.0">
+		<title>Application For Tenancy - Property Management QC</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="dist/pdf_viewer.css">
+	</head>
+
+	<body>
+		<svg aria-hidden="true" id="svgdefs" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<symbol id="icon-move" viewBox="0 0 16 16">
+					<title>Drag to move</title>
+					<path d="M 12,12.5 A 1.5,1.5 0 0 1 10.5,14 1.5,1.5 0 0 1 9,12.5 1.5,1.5 0 0 1 10.5,11 1.5,1.5 0 0 1 12,12.5 Z m -5,0 A 1.5,1.5 0 0 1 5.5,14 1.5,1.5 0 0 1 4,12.5 1.5,1.5 0 0 1 5.5,11 1.5,1.5 0 0 1 7,12.5 Z M 12,8 A 1.5,1.5 0 0 1 10.5,9.5 1.5,1.5 0 0 1 9,8 1.5,1.5 0 0 1 10.5,6.5 1.5,1.5 0 0 1 12,8 Z M 7,8 A 1.5,1.5 0 0 1 5.5,9.5 1.5,1.5 0 0 1 4,8 1.5,1.5 0 0 1 5.5,6.5 1.5,1.5 0 0 1 7,8 Z M 12,3.5 A 1.5,1.5 0 0 1 10.5,5 1.5,1.5 0 0 1 9,3.5 1.5,1.5 0 0 1 10.5,2 1.5,1.5 0 0 1 12,3.5 Z m -5,0 A 1.5,1.5 0 0 1 5.5,5 1.5,1.5 0 0 1 4,3.5 1.5,1.5 0 0 1 5.5,2 1.5,1.5 0 0 1 7,3.5 Z"/>
+				</symbol>
+				<symbol id="icon-delete" viewBox="0 0 20 20">
+					<path style="fill:none;stroke:#000000;stroke-width:1.5;" d="M 10,9.0000001 V 16 M 13,9.0000001 12,16 Z m -6,-4.5 c 0,-1.4990729 0.997973,-2.5 2.999904,-2.5 2.001931,0 3.000096,0.9964237 3.000096,2.5 m -11,0 h 16 v 2.5 H 2 Z m 5,4.5 L 8,16 Z m -3,-2 H 16 L 14,18 H 6 Z"/>
+				</symbol>
+				<symbol id="icon-text-size" viewBox="0 0 20 20">
+					<title>Change font size</title>
+					<path d="m 8,2 v 2 h 4 v 14 h 2 V 4 h 4 V 2 Z M 2,8 v 2 h 3 v 8 h 2 v -8 h 3 V 8 Z"/>
+				</symbol>
+				<symbol id="icon-line-width" viewBox="0 0 20 20">
+					<title>Change line width</title>
+					<path d="M 18,9.5 C 18,5.3578644 14.642136,2 10.5,2 6.357864,2 5.169595,6.1168884 4.5,8 3.830405,9.8831116 2,14.895431 2,16 c 0,1.104569 0.8954305,2 2,2 1.1045695,0 6.114383,-1.824274 8,-2.5 1.885617,-0.675726 6,-1.857864 6,-6 z"/>
+				</symbol>
+				<symbol id="icon-scale" viewBox="0 0 20 20">
+					<title>Change scale</title>
+					<path d="M 5,15 H 9 L 7.75,13.75 9.5,11.5 8.5,10.5 6.25,12.25 5,11 Z M 5,5 V 9 L 6.25,7.75 8.5,9.5 9.5,8.5 7.75,6.225 9,5 Z m 10,0 h -4 l 1.25,1.25 -1.75,2.25 1,1 L 13.75,7.75 15,9 Z M 18,2 H 2 V 18 H 18 Z M 16,16 H 4 V 4 h 12 z m -1,-1 v -4 l -1.25,1.25 -2.25,-1.75 -1,1 1.75,2.25 L 11,15 Z"/>
+				</symbol>
+				<symbol id="icon-rotate-ccw" viewBox="0 0 20 20">
+					<title>Rotate counter-clockwise</title>
+					<path d="M 6.9019238,9.3660254 10.366025,11.366025 9.9084936,9.6584936 10.591782,9.3806914 c 1.14862,-0.4669907 1.363076,0.233395 0.832256,1.1528026 l 1.299038,0.75 C 14.218608,8.4584228 12.128169,7.2261987 10.716734,7.4137366 L 9.3378049,7.5969555 8.9019238,5.9019238 Z m 0.9019238,-7.5621778 -6,10.3923044 10.3923044,6 6,-10.3923044 z m 7.6602544,6.7320508 -4,6.9282036 -6.9282036,-4 4,-6.9282036 z"/>
+				</symbol>
+				<symbol id="icon-rotate-cw" viewBox="0 0 20 20">
+					<title>Rotate clockwise</title>
+					<path d="M 13.098076,9.3660254 9.6339746,11.366025 10.091506,9.6584936 9.4082176,9.3806914 c -1.14862,-0.4669907 -1.363076,0.233395 -0.832256,1.1528026 l -1.299038,0.75 C 5.7813916,8.4584228 7.8718306,7.2261987 9.2832656,7.4137366 l 1.3789294,0.1832189 0.435881,-1.6950317 z m -0.901924,-7.5621778 6,10.3923044 -10.3923044,6 -6,-10.3923044 z m -7.6602544,6.7320508 4,6.9282036 6.9282034,-4 -4,-6.9282036 z"/>
+				</symbol>
+				<symbol id="icon-edit" viewBox="0 0 20 20">
+					<title>Edit</title>
+					<path d="M 13,1.5859375 2,12.585938 V 18 H 7.4140625 L 18.414062,7 Z M 13,4.4140625 15.585938,7 14,8.5859375 11.414063,6 Z m -3,3 L 12.585938,10 8,14.585938 5.4140625,12 Z M 4,13.414063 6.5859375,16 H 4 Z"/>
+				</symbol>
+			</defs>
+		</svg>
+		<div id="main-page">
+			<div id="top-bar">
+				<div id="toolbar">
+					<div id="toolbar-inner">
+						<input type="file" accept=".dat" id="file-input" name="pdf_file" hidden/>
+						<button id="load-file" onclick="document.getElementById('file-input').click()" title="Load data">
+							<svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 -960 960 960" width="32">
+								<path d="M463.897-250.051h33.847v-198.128l89.333 89.846 24.103-24.18L480-512.564 349.641-381.692l23.667 23.59 90.589-90.077v198.128ZM258.461-120q-24.577 0-41.519-16.942Q200-153.884 200-178.461v-603.078q0-24.577 16.942-41.519Q233.884-840 258.461-840h327.847L760-666.308v487.847q0 24.577-16.942 41.519Q726.116-120 701.539-120H258.461Zm310.924-530.359v-155.795H258.461q-9.231 0-16.923 7.692-7.692 7.692-7.692 16.923v603.078q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692h443.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-471.898H569.385ZM233.846-806.154v155.795-155.795 652.308-652.308Z"/>
+							</svg>
+						</button>
+						<button id="save-data" title="Save as data (editable)" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+								<path d="m 3.5,3.5 v 25 h 25 V 8.8242188 L 24.240234,3.5 Z m 1,1 H 10 v 7 h 12 v -7 h 1.759766 L 27.5,9.1757813 V 27.5 h -23 z m 6.5,0 h 7 v 6 h -7 z m 9,0 h 1 v 6 h -1 z m -11.5,11 v 9 h 15 v -9 z m 1,1 h 13 v 7 h -13 z"/>
+							</svg>
+						</button>
+						<button id="save" title="Save as PDF (non-editable)" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960">
+								<path d="M480-334.82 340.564-474.257l24.256-23.897 98.257 97.744V-760h33.846v359.59l98.257-97.744 24.256 23.897L480-334.82ZM258.461-200q-24.577 0-41.519-16.942Q200-233.884 200-258.461v-104.052h33.846v104.052q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692h443.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-104.052H760v104.052q0 24.577-16.942 41.519Q726.116-200 701.539-200H258.461Z"/>
+							</svg>
+						</button>
+						<div class="separator"></div>
+						<button id="insert-text" title="Insert text" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960">
+								<path d="M463.077-320v-286.154h-120V-640h273.846v33.846h-120V-320h-33.846ZM95.384-95.384V-256.36h64.462v-447.282H95.384v-160.975H256.36v64.462h447.282v-64.462h160.975v160.975h-64.462v447.282h64.462v160.975H703.641v-64.462H256.359v64.462H95.384Zm160.975-98.308h447.282v-62.667h62.667v-447.282h-62.667v-62.667H256.359v62.667h-62.667v447.282h62.667v62.667ZM129.23-737.487h93.283v-93.283H129.23v93.283Zm608.257 0h93.283v-93.283h-93.283v93.283Zm0 608.257h93.283v-93.283h-93.283v93.283Zm-608.257 0h93.283v-93.283H129.23v93.283Zm93.283-608.257Zm514.974 0Zm0 514.974Zm-514.974 0Z"/>
+							</svg>
+						</button>
+						<button id="insert-signature" title="Insert signature" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 8.4666666 8.4666666">
+								<path style="fill:none;stroke:#000000;stroke-width:0.3;stroke-linecap:round;stroke-dasharray:none;stroke-opacity:1" d="M 1.4470985,5.6966515 2.7700151,7.0195681 M 1.0583333,7.4083333 C 0,8.4666666 2.6141973,7.7593349 3.4970241,7.3178274 5.3828393,6.3747189 3.5930854,8.6848587 5.212837,7.759171 5.6194734,7.5267784 6.3398861,6.6121981 7.1529875,7.0567822 M 6.35,0.79374999 7.6729166,2.1166667 6.6145833,3.175 5.2916666,1.8520833 Z m -1.0583333,1.05833331 -3.96875,3.96875 -0.2645834,1.5875 1.5875,-0.2645833 3.96875,-3.96875 z"/>
+							</svg>
+						</button>
+						<input type="file" accept="image/png, image/jpeg" id="insert-image-input" name="insert-image" hidden>
+						<button id="insert-image" onclick="document.getElementById('insert-image-input').click()" title="Insert image" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 -960 960 960">
+								<path d="M218.461-160q-24.577 0-41.519-16.942Q160-193.884 160-218.461v-523.078q0-24.577 16.942-41.519Q193.884-800 218.461-800h523.078q24.577 0 41.519 16.942Q800-766.116 800-741.539v523.078q0 24.577-16.942 41.519Q766.116-160 741.539-160H218.461Zm0-33.846h523.078q9.231 0 16.923-7.692 7.692-7.692 7.692-16.923v-523.078q0-9.231-7.692-16.923-7.692-7.692-16.923-7.692H218.461q-9.231 0-16.923 7.692-7.692 7.692-7.692 16.923v523.078q0 9.231 7.692 16.923 7.692 7.692 16.923 7.692Zm80.41-105.179h369.078L555.333-448.667l-108 135.539-70.974-86.718-77.488 100.821ZM193.846-193.846v-572.308 572.308Z"/>
+							</svg>
+						</button>
+						<div class="separator"></div>
+						<button id="insert-page" title="Insert page" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+								<path style="fill:none;stroke:#000000" d="M 15.999999,22.493641 V 9.506359 M 9.506359,16 H 22.49364 M 6.6026163,2.8687086 H 25.397384 V 29.131291 H 6.6026163 Z"/>
+							</svg>
+						</button>
+						<button id="remove-page" title="Remove page" disabled>
+							<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+								<path style="fill:none;stroke:#000000" d="M 9.506359,16 H 22.49364 M 6.6026163,2.8687086 H 25.397384 V 29.131291 H 6.6026163 Z"/>
+							</svg>
+						</button>
+					</div>
+				</div>
+				<div id="socials">
+					<a href="/#help" target="_blank" title="Help">
+						<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+							<path d="M 16 3 A 13 13 0 0 0 3 16 A 13 13 0 0 0 16 29 A 13 13 0 0 0 29 16 A 13 13 0 0 0 16 3 z M 16 5.5 C 18.262468 5.5 20.157771 6.1091366 21.494141 7.296875 C 22.830509 8.4846134 23.5 10.209742 23.5 12 C 23.5 13.241259 22.874906 14.253954 22.160156 15.021484 C 21.445408 15.789015 20.592168 16.383055 19.765625 16.873047 C 18.619457 17.552518 18.083463 17.711767 17.5 17.941406 L 17.5 21.070312 A 1.5 1.5 0 0 1 16 22.570312 A 1.5 1.5 0 0 1 14.5 21.070312 L 14.5 17 A 1.50015 1.50015 0 0 1 15.501953 15.585938 C 15.501953 15.585937 16.887467 15.091443 18.234375 14.292969 C 18.907829 13.893731 19.554594 13.417106 19.964844 12.976562 C 20.375092 12.536018 20.5 12.201816 20.5 12 C 20.5 10.904109 20.166593 10.129782 19.501953 9.5390625 C 18.837313 8.9483431 17.73347 8.5 16 8.5 C 12.754821 8.5 11.248047 10.833984 11.248047 10.833984 A 1.5 1.5 0 0 1 9.1660156 11.248047 A 1.5 1.5 0 0 1 8.7519531 9.1660156 C 8.7519531 9.1660156 11.253303 5.5 16 5.5 z M 16 23.556641 A 1.732 1.732 0 0 1 17.732422 25.289062 A 1.732 1.732 0 0 1 16 27.021484 A 1.732 1.732 0 0 1 14.267578 25.289062 A 1.732 1.732 0 0 1 16 23.556641 z"/>
+						</svg>
+					</a>
+				</div>
+			</div>
+			<div id="flex-container">
+				<div id="pages"></div>
+				<div id="content">
+					<div id="content-inner">
+						<div id="pageContainer" class="pdfViewer singlePageView"></div>
+						<div id="overlayContainer"></div>
+					</div>
+				</div>
+			</div>
+			<div id="empty-state">
+				<div id="empty-state-inner">
+					Loading...
+				</div>
+			</div>
+		</div>
+		<div id="pass-wrapper" style="display: none;">
+			<div id="pass-dialog">
+				<p class="pass-save-only">
+					It is recommended to add a password to the file, as it contains sensitive personal information.<br>
+					Do not send us the <code>.dat</code> file, it will not be accepted; use the download icon to save a PDF of your completed application.
+				</p>
+				<p class="pass-load-only">Enter the password for the file (if it has one).</p>
+				<div id="pass-input">
+					<input id="pass-in-1" class="pass-input" type="password" placeholder="Password" title="Enter password">
+					<input id="pass-in-2" class="pass-input pass-save-only" type="password" placeholder="Enter again" title="Confirm password">
+					<div>
+						<button id="pass-save" class="pass-input pass-save-only">Save</button>
+						<button id="pass-load" class="pass-input pass-load-only">Load</button>
+						<button id="pass-cancel" class="pass-input">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="center-canvas" style="display: none;">
+			<canvas id="data-canvas" class="sig-canvas"></canvas>
+			<canvas id="draw-canvas" class="sig-canvas"></canvas>
+			<div id="canvas-buttons">
+				<div class="signature-container">
+					<svg width="32" height="32"><use href="#icon-line-width"/></svg>
+					<input id="signature-line-width" type="number" min="1" max="99" value="4" title="Change line width">
+				</div>
+				<div class="separator"></div>
+				<button id="undo-sign" title="Undo" disabled>
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<path style="fill:none;stroke:#000000" d="m 2.8950002,10.882 7.5999998,7.6 v -4.75 c 8.548827,0 13.3,2.374619 13.3,5.225 0,2.850381 -4.748065,5.225 -13.3,5.225 v 5.7 c 17.100754,0 19,-6.170904 19,-10.925 0,-4.754095 -1.898167,-10.9249998 -19,-10.9249998 v -4.75 z"/>
+					</svg>
+				</button>
+				<button id="redo-sign" title="Redo" disabled>
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<path style="fill:none;stroke:#000000" d="m 29.298249,10.882 -7.6,7.6 v -4.75 c -8.548827,0 -13.3000002,2.374619 -13.3000002,5.225 0,2.850381 4.7480652,5.225 13.3000002,5.225 v 5.7 c -17.1007542,0 -19.0000002,-6.170904 -19.0000002,-10.925 0,-4.754095 1.898167,-10.9249998 19.0000002,-10.9249998 v -4.75 z"/>
+					</svg>
+				</button>
+				<button id="accept-sign" title="Accept" disabled>
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<path style="fill:none;stroke:#000000" d="M 3,20 13,29 29,3"/>
+					</svg>
+				</button>
+				<button id="clear-sign" title="Clear">
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<path style="fill:none;stroke:#000000" d="M 16,11.451 V 24.649938 M 22.053639,11.735264 20.926997,25.226765 Z M 10,4.198 c 0,0 0.995795,-2.7040808 6,-2.7040808 4.99608,0 6,2.7040808 6,2.7040808 M 4.2475914,4.498485 H 27.752409 V 8.3871438 H 4.2475914 Z m 5.6987693,7.236779 1.1266423,13.491501 z M 6.4742704,8.3871438 H 25.52573 L 23.722491,29.980862 H 8.2775093 Z"/>
+					</svg>
+				</button>
+				<button id="close-sign" title="Close">
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+						<path style="fill:none;stroke:#000000" d="M 2,30 30,2 M 2,2 30,30"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+		<script src="dist/bundle.js" type="module"></script>
+		<script src="dist/drag-drop-touch.esm.min.js?autoload" type="module"></script>
+		<script src="dist/hammer.min.js"></script>
+	</body>
+</html>
